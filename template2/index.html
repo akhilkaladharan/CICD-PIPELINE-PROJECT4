@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VESTURE — Premium Clothing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+   :root {
+  --ink: #0a0a0a;
+  --charcoal: #111111;
+  --deep: #1a1a1a;
+
+  --ivory: #f8f6f2;
+  --soft: #ece8e1;
+
+  --gold: #c6a96b;
+  --gold-light: #e0c48c;
+
+  --muted: #8c857c;
+  --border: #e5dfd6;
+
+  --card-bg: #ffffff;
+  --overlay: rgba(0,0,0,0.65);
+
+  --success: #3f6b52;
+
+  /* FIX missing vars */
+  --chalk: #f8f6f2;
+  --warm: #ece8e1;
+  --cart-w: 400px;
+}
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--chalk);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--warm); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem;
+      height: 70px;
+      background: var(--chalk);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--gold); }
+
+    nav { display: flex; gap: 2.2rem; }
+    nav a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--ink); }
+
+    .header-actions { display: flex; align-items: center; gap: 1.2rem; }
+
+    .cart-btn {
+      position: relative;
+      background: var(--ink);
+      color: var(--chalk);
+      border: none;
+      padding: 0.6rem 1.4rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.25s;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .cart-btn:hover { background: var(--gold); }
+    .cart-count {
+      background: var(--gold);
+      color: var(--ink);
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: calc(100vh - 70px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .hero-text {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 5rem;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.2rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.06;
+      color: var(--ink);
+      margin-bottom: 1.8rem;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 380px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      background: var(--ink); color: var(--chalk);
+      padding: 1rem 2.2rem;
+      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+      text-decoration: none; font-weight: 500;
+      transition: background 0.25s, gap 0.25s;
+      animation: fadeUp 0.8s 0.3s ease both;
+      width: fit-content;
+    }
+    .hero-cta:hover { background: var(--gold); gap: 1.2rem; }
+    .hero-cta svg { transition: transform 0.25s; }
+    .hero-cta:hover svg { transform: translateX(4px); }
+
+    .hero-image {
+      position: relative; overflow: hidden;
+      animation: fadeIn 1.2s 0.2s ease both;
+    }
+
+    .hero-image-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #c9b89a 0%, #8a7560 40%, #5c4d3a 100%);
+    }
+
+    .hero-image-pattern {
+      position: absolute; inset: 0; opacity: 0.07;
+      background-image: repeating-linear-gradient(
+        45deg, #000 0, #000 1px, transparent 0, transparent 50%
+      );
+      background-size: 20px 20px;
+    }
+
+    .hero-image-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+
+    .hero-mannequin {
+      font-size: 11rem; line-height: 1;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero-badge {
+      position: absolute; bottom: 2.5rem; right: 2.5rem;
+      background: var(--chalk); padding: 1.2rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    .hero-badge-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; font-weight: 600; color: var(--gold);
+      line-height: 1;
+    }
+    .hero-badge-label {
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden;
+      background: var(--ink);
+      padding: 0.85rem 0;
+      border-top: 1px solid #222;
+    }
+    .marquee-track {
+      display: flex; gap: 3rem;
+      animation: marquee 22s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-size: 0.7rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--gold);
+      white-space: nowrap; display: flex; align-items: center; gap: 1.5rem;
+    }
+    .marquee-item::after { content: '◆'; font-size: 0.4rem; color: var(--muted); }
+
+    /* ── SECTION TITLES ── */
+    .section { padding: 6rem 3rem; }
+    .section-header { margin-bottom: 3.5rem; }
+    .section-eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300; line-height: 1.1;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    /* ── PRODUCT GRID ── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    }
+
+    .product-img {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .product-img-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+    .product-card:hover .product-img-bg { transform: scale(1.05); }
+
+    .product-tag {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--ink); color: var(--chalk);
+      font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 0.3rem 0.7rem;
+    }
+    .product-tag.new { background: var(--gold); color: var(--ink); }
+    .product-tag.sale { background: #c0392b; }
+
+    .product-quick-add {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: var(--ink); color: var(--chalk);
+      border: none; padding: 0.85rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      cursor: pointer;
+      transform: translateY(100%);
+      transition: transform 0.3s ease, background 0.2s;
+    }
+    .product-card:hover .product-quick-add { transform: translateY(0); }
+    .product-quick-add:hover { background: var(--gold); color: var(--ink); }
+
+    .product-info { padding: 1.2rem 1.4rem 1.5rem; }
+    .product-category {
+      font-size: 0.65rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 400;
+      margin-bottom: 0.6rem;
+    }
+    .product-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .product-price { font-size: 1rem; font-weight: 500; color: var(--ink); }
+    .product-price .original {
+      font-size: 0.8rem; color: var(--muted);
+      text-decoration: line-through; margin-right: 0.5rem;
+    }
+    .product-rating { display: flex; gap: 2px; }
+    .product-rating span { color: var(--gold); font-size: 0.65rem; }
+
+    /* ── CART OVERLAY ── */
+    .cart-overlay {
+      position: fixed; inset: 0;
+      background: var(--overlay);
+      z-index: 200;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: var(--cart-w);
+      background: var(--chalk);
+      z-index: 201;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column;
+    }
+    .cart-drawer.open { transform: translateX(0); }
+
+    .cart-header {
+      padding: 1.8rem 2rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cart-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 400;
+    }
+    .cart-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.5rem; color: var(--muted);
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.2s, background 0.2s;
+      border-radius: 2px;
+    }
+    .cart-close:hover { color: var(--ink); background: var(--warm); }
+
+    .cart-body { flex: 1; overflow-y: auto; padding: 1.5rem 2rem; }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 70px 1fr auto;
+      gap: 1rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .cart-item-img {
+  width: 70px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+    
+
+    .cart-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; margin-bottom: 0.25rem;
+    }
+    .cart-item-variant {
+      font-size: 0.72rem; color: var(--muted); margin-bottom: 0.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    .cart-qty {
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .cart-qty-btn {
+      width: 24px; height: 24px;
+      background: var(--warm); border: 1px solid var(--border);
+      cursor: pointer; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .cart-qty-btn:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+    .cart-qty-num { font-size: 0.85rem; min-width: 18px; text-align: center; }
+
+    .cart-item-right {
+      display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between;
+    }
+    .cart-item-price { font-weight: 500; font-size: 0.9rem; }
+    .cart-remove {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: underline; padding: 0;
+      transition: color 0.2s;
+    }
+    .cart-remove:hover { color: #c0392b; }
+
+    .cart-footer {
+      padding: 1.5rem 2rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .cart-summary { margin-bottom: 1.4rem; }
+    .cart-row {
+      display: flex; justify-content: space-between;
+      font-size: 0.85rem; color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .cart-row.total {
+      font-size: 1rem; font-weight: 500; color: var(--ink);
+      margin-top: 0.8rem; padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .checkout-btn {
+      width: 100%; padding: 1.1rem;
+      background: var(--ink); color: var(--chalk);
+      border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.25s;
+    }
+    .checkout-btn:hover { background: var(--gold); color: var(--ink); }
+
+    .cart-promo {
+      display: flex; gap: 0.5rem; margin-bottom: 1rem;
+    }
+    .promo-input {
+      flex: 1; padding: 0.7rem 1rem;
+      border: 1px solid var(--border); background: var(--warm);
+      font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .promo-input:focus { border-color: var(--gold); }
+    .promo-btn {
+      padding: 0.7rem 1rem;
+      background: var(--warm); border: 1px solid var(--border);
+      cursor: pointer; font-size: 0.72rem; letter-spacing: 0.1em;
+      text-transform: uppercase; font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s;
+    }
+    .promo-btn:hover { background: var(--gold); border-color: var(--gold); }
+
+    .cart-empty {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 100%;
+      text-align: center; padding: 3rem;
+    }
+    .cart-empty-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.4; }
+    .cart-empty-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .cart-empty-sub { font-size: 0.82rem; color: var(--muted); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ink); color: var(--chalk);
+      padding: 0.9rem 1.8rem;
+      font-size: 0.8rem; letter-spacing: 0.06em;
+      z-index: 999;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      display: flex; align-items: center; gap: 0.6rem;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast-icon { color: var(--gold); }
+
+    /* ── BANNER ── */
+    .promo-banner {
+      background: var(--gold);
+      text-align: center; padding: 0.6rem;
+      font-size: 0.72rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); color: var(--warm);
+      padding: 4rem 3rem 2rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 600;
+      letter-spacing: 0.18em; color: var(--chalk);
+      margin-bottom: 0.8rem;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+    .footer-col h4 {
+      font-size: 0.68rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col a {
+      display: block; font-size: 0.82rem; color: var(--muted);
+      text-decoration: none; margin-bottom: 0.6rem;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--chalk); }
+    .footer-bottom {
+      border-top: 1px solid #2a2a2a;
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.72rem; color: var(--muted);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-18px); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-image { height: 340px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      header { padding: 0 1.5rem; }
+      nav { display: none; }
+      .cart-drawer { width: 100%; max-width: 400px; }
+    }
+    @media (max-width: 560px) {
+      .section { padding: 4rem 1.5rem; }
+      .hero-text { padding: 3rem 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Promo Banner -->
+<div class="promo-banner">✦ Free Shipping on Orders Over ₹2,499 &nbsp;|&nbsp; New Arrivals Every Friday ✦</div>
+
+<!-- Header -->
+<header>
+  <a class="logo" href="#">VES<span>T</span>URE</a>
+  <nav>
+    <a href="#">Collections</a>
+    <a href="#">Men</a>
+    <a href="#">Women</a>
+    <a href="#">Sale</a>
+    <a href="#">About</a>
+  </nav>
+  <div class="header-actions">
+    <button class="cart-btn" onclick="openCart()">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Cart
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">New Season — SS 2025</p>
+    <h1 class="hero-title">Dressed for<br><em>Every Story</em></h1>
+    <p class="hero-sub">Premium clothing crafted with intention. Each piece designed to move with you — from morning routines to midnight moments.</p>
+    <a href="#collection" class="hero-cta">
+      Shop Collection
+      <svg width="16" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 16 12"><path d="M0 6h14M9 1l5 5-5 5"/></svg>
+    </a>
+  </div>
+  <div class="hero-image">
+    <div class="hero-image-bg"></div>
+    <div class="hero-image-pattern"></div>
+    <div class="hero-image-overlay">
+      <div class="hero-mannequin">
+  <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600" alt="T-shirt">
+</div>
+    </div>
+    <div class="hero-badge">
+      <div class="hero-badge-num">200+</div>
+      <div class="hero-badge-label">Curated Styles</div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<!-- Collection -->
+<section class="section" id="collection">
+  <div class="section-header">
+    <p class="section-eyebrow">Featured Products</p>
+    <h2 class="section-title">Shop the <em>Collection</em></h2>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">VES<span>T</span>URE</div>
+      <p class="footer-desc">Premium clothing designed for those who live with intention. Quality materials, timeless cuts, modern sensibility.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="#">New Arrivals</a>
+      <a href="#">Men's Shirts</a>
+      <a href="#">Trousers</a>
+      <a href="#">T-Shirts</a>
+      <a href="#">Sale</a>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <a href="#">Size Guide</a>
+      <a href="#">Returns</a>
+      <a href="#">Shipping</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About Us</a>
+      <a href="#">Sustainability</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 VESTURE. All rights reserved.</span>
+    <span>Made with care in India 🇮🇳</span>
+  </div>
+</footer>
+
+<!-- Cart Overlay -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- Cart Drawer -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h2 class="cart-title">Your Bag</h2>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer" id="cartFooter"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✦</span>
+  <span id="toastMsg">Added to bag</span>
+</div>
+
+<script>
+  // ── PRODUCTS ──────────────────────────────────────────────
+  const PRODUCTS = [
+  {
+    id: 1,
+    name: 'Oxford Button-Down',
+    category: 'Shirts',
+    price: 1899,
+    image: 'https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500',
+    tag: 'new',
+    rating: 5,
+    variant: 'White / Size M'
+  },
+  {
+    id: 2,
+    name: 'Round Neck T-Shirt',
+    category: 'Shirts',
+    price: 2299,
+    originalPrice: 2899,
+    image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500',
+    tag: 'sale',
+    rating: 4,
+    variant: 'Sky Blue / Size L'
+  },
+  {
+    id: 3,
+    name: 'Slim Jean Pants',
+    category: 'Pants',
+    price: 2499,
+    image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=500&q=80',
+    tag: null,
+    rating: 5,
+    variant: 'Khaki / 32×30'
+  },
+  {
+    id: 4,
+    name: 'Charcoal Dress Pants',
+    category: 'Pants',
+    price: 3199,
+    originalPrice: 3999,
+    image: 'https://images.unsplash.com/photo-1584865288642-42078afe6942?w=500',
+    tag: 'sale',
+    rating: 4,
+    variant: 'Charcoal / 34×32'
+  },
+  {
+    id: 5,
+    name: 'Essential Crew T-Shirt',
+    category: 'T-Shirts',
+    price: 799,
+    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500',
+    tag: 'new',
+    rating: 5,
+    variant: 'Black / Size M'
+  },
+  {
+    id: 6,
+    name: 'Graphic Heritage Tee',
+    category: 'T-Shirts',
+    price: 999,
+    image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500',
+    tag: null,
+    rating: 4,
+    variant: 'Vintage Wash / S'
+  }
+];
+ 
+
+
+  // ── CART STATE ─────────────────────────────────────────────
+  let cart = [
+  { ...PRODUCTS[0], qty: 1 },
+  { ...PRODUCTS[2], qty: 1 },
+  { ...PRODUCTS[4], qty: 2 },
+  { ...PRODUCTS[5], qty: 1 } // ✅ fixed
+];
+
+  // ── MARQUEE ────────────────────────────────────────────────
+  const marqueeItems = ['Free Shipping','New Arrivals','Premium Quality','Sustainable Fabrics','Handcrafted Details','Limited Editions','Size Inclusive','Made in India'];
+  const track = document.getElementById('marqueeTrack');
+  const doubled = [...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems];
+  track.innerHTML = doubled.map(t => `<span class="marquee-item">${t}</span>`).join('');
+
+  // ── RENDER PRODUCTS ────────────────────────────────────────
+  function renderProducts() {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = PRODUCTS.map(p => `
+      <div class="product-card" onclick="addToCart(${p.id})">
+        <div class="product-img">
+  <img src="${p.image}" class="product-img-bg" alt="${p.name}">
+  ${p.tag ? `<span class="product-tag ${p.tag}">${p.tag === 'new' ? 'New' : 'Sale'}</span>` : ''}
+  <button class="product-quick-add" onclick="event.stopPropagation();addToCart(${p.id})">Quick Add +</button>
+</div>
+        <div class="product-info">
+          <p class="product-category">${p.category}</p>
+          <p class="product-name">${p.name}</p>
+          <div class="product-footer">
+            <div class="product-price">
+              ${p.originalPrice ? `<span class="original">₹${p.originalPrice.toLocaleString('en-IN')}</span>` : ''}
+              ₹${p.price.toLocaleString('en-IN')}
+            </div>
+            <div class="product-rating">${'★'.repeat(p.rating)}${'☆'.repeat(5-p.rating)}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── CART FUNCTIONS ─────────────────────────────────────────
+  function addToCart(id) {
+    const product = PRODUCTS.find(p => p.id === id);
+    const existing = cart.find(c => c.id === id);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ ...product, qty: 1 });
+    }
+    updateCartCount();
+    renderCart();
+    showToast(`${product.name} added to bag`);
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(c => c.id !== id);
+    updateCartCount();
+    renderCart();
+  }
+
+  function changeQty(id, delta) {
+    const item = cart.find(c => c.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) removeFromCart(id);
+    else { updateCartCount(); renderCart(); }
+  }
+
+  function updateCartCount() {
+    const total = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cartCount').textContent = total;
+  }
+
+  function getSubtotal() {
+    return cart.reduce((s, i) => s + i.price * i.qty, 0);
+  }
+
+  function renderCart() {
+    const body = document.getElementById('cartBody');
+    const footer = document.getElementById('cartFooter');
+
+    if (cart.length === 0) {
+      body.innerHTML = `
+        <div class="cart-empty">
+          <div class="cart-empty-icon">🛍️</div>
+          <p class="cart-empty-text">Your bag is empty</p>
+          <p class="cart-empty-sub">Add something beautiful</p>
+        </div>`;
+      footer.innerHTML = '';
+      return;
+    }
+
+    body.innerHTML = cart.map(item => `
+      <div class="cart-item">
+  <img src="${item.image}" class="cart-item-img" />
+  <div>
+    <p class="cart-item-name">${item.name}</p>
+    <p class="cart-item-variant">${item.variant}</p>
+    <div class="cart-qty">
+      <button class="cart-qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+      <span class="cart-qty-num">${item.qty}</span>
+      <button class="cart-qty-btn" onclick="changeQty(${item.id},1)">+</button>
+    </div>
+  </div>
+  <div class="cart-item-right">
+    <span class="cart-item-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
+    <button class="cart-remove" onclick="removeFromCart(${item.id})">Remove</button>
+  </div>
+</div>
+    `).join('');
+
+    const sub = getSubtotal();
+    const shipping = sub >= 2499 ? 0 : 149;
+    const total = sub + shipping;
+
+    footer.innerHTML = `
+      <div class="cart-summary">
+        <div class="cart-row"><span>Subtotal</span><span>₹${sub.toLocaleString('en-IN')}</span></div>
+        <div class="cart-row"><span>Shipping</span><span>${shipping === 0 ? '<span style="color:var(--success)">Free</span>' : '₹'+shipping}</span></div>
+        <div class="cart-row total"><span>Total</span><span>₹${total.toLocaleString('en-IN')}</span></div>
+      </div>
+      <div class="cart-promo">
+        <input class="promo-input" type="text" placeholder="Promo code"/>
+        <button class="promo-btn">Apply</button>
+      </div>
+      <button class="checkout-btn">Proceed to Checkout →</button>
+    `;
+  }
+
+  function openCart() {
+    document.getElementById('cartDrawer').classList.add('open');
+    document.getElementById('cartOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    renderCart();
+  }
+
+  function closeCart() {
+    document.getElementById('cartDrawer').classList.remove('open');
+    document.getElementById('cartOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── TOAST ──────────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  // ── INIT ───────────────────────────────────────────────────
+  renderProducts();
+  updateCartCount();
+
+  // Open cart on load to show pre-filled items
+  setTimeout(() => openCart(), 600);
+</script>
+</body>
+</html>

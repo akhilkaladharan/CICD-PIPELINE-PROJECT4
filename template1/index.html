@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VELOX MOTORS — Drive the Future</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #080808;
+      --deep: #0e0e0e;
+      --carbon: #161616;
+      --steel: #2a2a2a;
+      --silver: #8a8a8a;
+      --light: #c8c8c8;
+      --white: #f0ede8;
+      --red: #c0392b;
+      --red-hot: #e74c3c;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--red-hot);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(231,76,60,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.18s ease;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 60px;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 6px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--red-hot); }
+
+    .nav-links {
+      display: flex;
+      gap: 42px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--silver);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--white) !important;
+      border: 1px solid var(--red);
+      padding: 10px 24px;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-cta:hover {
+      background: var(--red) !important;
+      color: var(--white) !important;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(8,8,8,0.92) 40%, rgba(8,8,8,0.3) 100%),
+        linear-gradient(to top, rgba(8,8,8,0.8) 0%, transparent 60%);
+      z-index: 1;
+    }
+
+    /* Animated grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(192,57,43,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(192,57,43,0.06) 1px, transparent 1px);
+      background-size: 80px 80px;
+      animation: gridScroll 20s linear infinite;
+    }
+
+    @keyframes gridScroll {
+      from { transform: translateY(0); }
+      to { transform: translateY(80px); }
+    }
+
+    /* Car silhouette using CSS shapes */
+    .hero-car-graphic {
+      position: absolute;
+      right: -2%;
+      bottom: 12%;
+      width: 65%;
+      height: 55%;
+      z-index: 0;
+      opacity: 0.85;
+    }
+
+    .hero-car-graphic svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 60px rgba(192,57,43,0.3));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 60px 80px;
+      max-width: 700px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--red-hot);
+      margin-bottom: 20px;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(80px, 10vw, 140px);
+      line-height: 0.9;
+      letter-spacing: 2px;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.5s forwards;
+    }
+    .hero-title .accent { color: var(--red); }
+
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--silver);
+      max-width: 420px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.7s forwards;
+    }
+
+    .hero-actions {
+      margin-top: 44px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.9s forwards;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      padding: 16px 44px;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      border: none;
+      cursor: none;
+      transition: background 0.25s, transform 0.2s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: var(--red-hot); transform: translateY(-2px); }
+
+    .btn-ghost {
+      color: var(--silver);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.2s;
+    }
+    .btn-ghost::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--red);
+      transition: width 0.3s;
+    }
+    .btn-ghost:hover { color: var(--white); }
+    .btn-ghost:hover::before { width: 50px; }
+
+    .hero-stats {
+      position: absolute;
+      right: 60px;
+      bottom: 80px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.2s forwards;
+    }
+
+    .stat {
+      text-align: right;
+    }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 44px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--white);
+    }
+    .stat-num sup { font-size: 18px; color: var(--red); }
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--silver);
+      margin-top: 4px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.5s forwards;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--red), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(0.7); }
+    }
+    .scroll-text {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--silver);
+      writing-mode: vertical-rl;
+      margin-top: 8px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* MARQUEE STRIP */
+    .marquee-strip {
+      background: var(--red);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-block;
+      animation: marquee 25s linear infinite;
+    }
+    .marquee-track span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 5px;
+      color: rgba(255,255,255,0.9);
+      padding: 0 40px;
+    }
+    .marquee-track span::before {
+      content: '◆';
+      margin-right: 40px;
+      opacity: 0.6;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* MODELS SECTION */
+    .section {
+      padding: 120px 60px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 6vw, 80px);
+      letter-spacing: 2px;
+      line-height: 0.95;
+    }
+
+    .models-section {
+      background: var(--deep);
+    }
+
+    .models-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 70px;
+    }
+
+    .models-desc {
+      max-width: 320px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--silver);
+      font-style: italic;
+    }
+
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .model-card {
+      position: relative;
+      background: var(--carbon);
+      overflow: hidden;
+      cursor: none;
+      group: true;
+    }
+
+    .model-card:first-child {
+      grid-column: span 2;
+    }
+
+    .model-card-visual {
+      height: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .model-card:first-child .model-card-visual {
+      height: 420px;
+    }
+
+    .model-bg {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.6s ease;
+    }
+
+    .model-card:hover .model-bg {
+      transform: scale(1.05);
+    }
+
+    /* Model visuals using gradients */
+    .model-bg-1 {
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 60%, rgba(192,57,43,0.15), transparent),
+        linear-gradient(135deg, #111 0%, #1a1a1a 50%, #0d0d0d 100%);
+    }
+    .model-bg-2 {
+      background:
+        radial-gradient(ellipse at 50% 70%, rgba(120,120,180,0.1), transparent),
+        linear-gradient(135deg, #0e0e14 0%, #14141e 100%);
+    }
+    .model-bg-3 {
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(40,80,40,0.12), transparent),
+        linear-gradient(135deg, #0e130e 0%, #141a14 100%);
+    }
+
+    /* Abstract car shape per card */
+    .model-shape {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+    }
+
+    .model-info {
+      padding: 28px 32px;
+    }
+
+    .model-tag {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+
+    .model-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 2px;
+      color: var(--white);
+    }
+
+    .model-specs {
+      display: flex;
+      gap: 28px;
+      margin-top: 16px;
+    }
+
+    .spec {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .spec-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--light);
+    }
+
+    .spec-key {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--silver);
+    }
+
+    .model-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+      font-weight: 600;
+      transition: gap 0.2s;
+    }
+    .model-link:hover { gap: 18px; }
+
+    /* PHILOSOPHY SECTION */
+    .philosophy {
+      background: var(--black);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 80vh;
+      align-items: stretch;
+    }
+
+    .phil-visual {
+      position: relative;
+      overflow: hidden;
+      background: var(--carbon);
+      min-height: 500px;
+    }
+
+    .phil-visual-inner {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 40% 50%, rgba(192,57,43,0.2), transparent 60%),
+        linear-gradient(135deg, #111 0%, #1a1010 100%);
+    }
+
+    /* Large decorative letter */
+    .phil-letter {
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 400px;
+      line-height: 1;
+      color: rgba(255,255,255,0.025);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      user-select: none;
+    }
+
+    .phil-lines {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 30px,
+        rgba(192,57,43,0.03) 30px,
+        rgba(192,57,43,0.03) 31px
+      );
+    }
+
+    .phil-badge {
+      position: absolute;
+      bottom: 50px;
+      left: 50px;
+      right: 50px;
+      border: 1px solid rgba(192,57,43,0.3);
+      padding: 28px;
+    }
+
+    .phil-badge-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 60px;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .phil-badge-text {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--silver);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .phil-content {
+      padding: 100px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .phil-content .section-title {
+      margin-bottom: 36px;
+    }
+
+    .phil-body {
+      font-size: 16px;
+      line-height: 1.9;
+      color: var(--silver);
+      margin-bottom: 20px;
+    }
+
+    .phil-features {
+      margin-top: 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .phil-feat {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: padding-left 0.3s;
+    }
+
+    .phil-feat:hover { padding-left: 10px; }
+
+    .feat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 2px;
+      min-width: 28px;
+    }
+
+    .feat-name {
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--light);
+      font-weight: 400;
+    }
+
+    /* EXPERIENCE SECTION */
+    .experience {
+      background: var(--carbon);
+      text-align: center;
+      padding: 140px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exp-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(120px, 18vw, 240px);
+      color: rgba(255,255,255,0.02);
+      white-space: nowrap;
+      user-select: none;
+      letter-spacing: 10px;
+    }
+
+    .experience .section-label { text-align: center; }
+    .experience .section-title { margin-bottom: 60px; }
+
+    .exp-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--steel);
+      position: relative;
+      z-index: 1;
+    }
+
+    .exp-card {
+      background: var(--carbon);
+      padding: 50px 32px;
+      transition: background 0.3s;
+      cursor: none;
+    }
+
+    .exp-card:hover { background: var(--deep); }
+
+    .exp-icon {
+      font-size: 36px;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .exp-card-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      color: var(--white);
+    }
+
+    .exp-card-body {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--silver);
+    }
+
+    /* CTA BANNER */
+    .cta-banner {
+      position: relative;
+      padding: 120px 60px;
+      background: var(--black);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(192,57,43,0.12), transparent);
+    }
+
+    .cta-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(192,57,43,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(192,57,43,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .cta-banner .section-title {
+      font-size: clamp(60px, 8vw, 110px);
+      position: relative;
+      z-index: 1;
+      margin-bottom: 24px;
+    }
+
+    .cta-banner p {
+      font-size: 16px;
+      color: var(--silver);
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+      font-style: italic;
+    }
+
+    .cta-banner .btn-primary {
+      position: relative;
+      z-index: 1;
+      font-size: 13px;
+      padding: 18px 60px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--deep);
+      padding: 70px 60px 40px;
+      border-top: 1px solid var(--steel);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 5px;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .footer-brand span { color: var(--red); }
+
+    .footer-tagline {
+      font-size: 14px;
+      color: var(--silver);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .footer-col-title {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: var(--silver);
+      text-decoration: none;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); padding-left: 6px; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--steel);
+      letter-spacing: 1px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-socials a {
+      width: 36px; height: 36px;
+      border: 1px solid var(--steel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--silver);
+      font-size: 13px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .footer-socials a:hover { border-color: var(--red); color: var(--red); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .section { padding: 80px 24px; }
+      .hero-content { padding: 0 24px 60px; }
+      .hero-stats { display: none; }
+      .models-grid { grid-template-columns: 1fr; }
+      .model-card:first-child { grid-column: span 1; }
+      .philosophy { grid-template-columns: 1fr; }
+      .phil-visual { min-height: 300px; }
+      .exp-cards { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">VELOX<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#models">Models</a></li>
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact" class="nav-cta">Configure</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+
+    <!-- SVG car silhouette -->
+    <div class="hero-car-graphic">
+      <svg viewBox="0 0 900 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Body -->
+        <path d="M80 260 Q100 240 140 220 L220 160 Q260 100 360 80 L560 78 Q660 78 720 120 L800 180 L840 220 Q860 240 860 260 Z" fill="#1a1a1a" stroke="rgba(192,57,43,0.5)" stroke-width="1.5"/>
+        <!-- Roof -->
+        <path d="M220 160 Q260 100 360 80 L560 78 Q620 78 660 100 L720 140 L580 145 L360 145 Z" fill="#141414" stroke="rgba(192,57,43,0.3)" stroke-width="1"/>
+        <!-- Windows -->
+        <path d="M235 155 Q265 110 355 90 L440 88 L440 143 L280 145 Z" fill="rgba(192,57,43,0.08)" stroke="rgba(192,57,43,0.25)" stroke-width="1"/>
+        <path d="M450 88 L540 88 Q600 88 640 110 L710 140 L450 143 Z" fill="rgba(192,57,43,0.08)" stroke="rgba(192,57,43,0.25)" stroke-width="1"/>
+        <!-- Spoiler -->
+        <path d="M730 120 L800 180 L810 178 L745 115 Z" fill="#222"/>
+        <!-- Front grille accent -->
+        <path d="M80 260 L100 240 L120 255 L90 270 Z" fill="#c0392b" opacity="0.8"/>
+        <!-- Headlights -->
+        <ellipse cx="95" cy="250" rx="12" ry="7" fill="#c0392b" opacity="0.9"/>
+        <ellipse cx="840" cy="250" rx="14" ry="8" fill="#c0392b" opacity="0.7"/>
+        <!-- Wheels -->
+        <circle cx="230" cy="268" r="58" fill="#0a0a0a" stroke="#2a2a2a" stroke-width="2"/>
+        <circle cx="230" cy="268" r="42" fill="#111" stroke="#333" stroke-width="1.5"/>
+        <circle cx="230" cy="268" r="20" fill="#0e0e0e" stroke="rgba(192,57,43,0.5)" stroke-width="1.5"/>
+        <!-- Wheel spokes -->
+        <line x1="230" y1="226" x2="230" y2="246" stroke="#444" stroke-width="3"/>
+        <line x1="230" y1="290" x2="230" y2="310" stroke="#444" stroke-width="3"/>
+        <line x1="188" y1="268" x2="208" y2="268" stroke="#444" stroke-width="3"/>
+        <line x1="252" y1="268" x2="272" y2="268" stroke="#444" stroke-width="3"/>
+        <line x1="200" y1="238" x2="214" y2="252" stroke="#444" stroke-width="2.5"/>
+        <line x1="246" y1="284" x2="260" y2="298" stroke="#444" stroke-width="2.5"/>
+        <line x1="200" y1="298" x2="214" y2="284" stroke="#444" stroke-width="2.5"/>
+        <line x1="246" y1="252" x2="260" y2="238" stroke="#444" stroke-width="2.5"/>
+
+        <circle cx="700" cy="268" r="58" fill="#0a0a0a" stroke="#2a2a2a" stroke-width="2"/>
+        <circle cx="700" cy="268" r="42" fill="#111" stroke="#333" stroke-width="1.5"/>
+        <circle cx="700" cy="268" r="20" fill="#0e0e0e" stroke="rgba(192,57,43,0.5)" stroke-width="1.5"/>
+        <line x1="700" y1="226" x2="700" y2="246" stroke="#444" stroke-width="3"/>
+        <line x1="700" y1="290" x2="700" y2="310" stroke="#444" stroke-width="3"/>
+        <line x1="658" y1="268" x2="678" y2="268" stroke="#444" stroke-width="3"/>
+        <line x1="722" y1="268" x2="742" y2="268" stroke="#444" stroke-width="3"/>
+        <line x1="670" y1="238" x2="684" y2="252" stroke="#444" stroke-width="2.5"/>
+        <line x1="716" y1="284" x2="730" y2="298" stroke="#444" stroke-width="2.5"/>
+        <line x1="670" y1="298" x2="684" y2="284" stroke="#444" stroke-width="2.5"/>
+        <line x1="716" y1="252" x2="730" y2="238" stroke="#444" stroke-width="2.5"/>
+        <!-- Ground shadow -->
+        <ellipse cx="465" cy="340" rx="380" ry="18" fill="rgba(0,0,0,0.6)"/>
+        <!-- Red underline glow -->
+        <path d="M100 270 L850 270" stroke="rgba(192,57,43,0.15)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <div class="hero-bg"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">2026 Collection — Now Available</p>
+      <h1 class="hero-title">
+        PURE<br>
+        <span class="accent">POWER.</span><br>
+        REDEFINED.
+      </h1>
+      <p class="hero-sub">
+        Engineering without compromise. Every curve calculated. Every second counts. This is performance, elevated to art.
+      </p>
+      <div class="hero-actions">
+        <a href="#models" class="btn-primary">Explore Models</a>
+        <a href="#experience" class="btn-ghost">Our Legacy</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">2.8<sup>s</sup></div>
+        <div class="stat-label">0 – 100 km/h</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">680</div>
+        <div class="stat-label">Horsepower</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">320</div>
+        <div class="stat-label">Top Speed km/h</div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span class="scroll-text">Scroll</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>Performance</span><span>Precision Engineering</span><span>Advanced Aerodynamics</span>
+      <span>Luxury Redefined</span><span>Carbon Fiber Chassis</span><span>Zero Compromise</span>
+      <span>Performance</span><span>Precision Engineering</span><span>Advanced Aerodynamics</span>
+      <span>Luxury Redefined</span><span>Carbon Fiber Chassis</span><span>Zero Compromise</span>
+    </div>
+  </div>
+
+  <!-- MODELS -->
+  <section class="models-section section" id="models">
+    <div class="models-header">
+      <div>
+        <p class="section-label">Our Fleet</p>
+        <h2 class="section-title">THE<br>LINEUP</h2>
+      </div>
+      <p class="models-desc">
+        Three distinct models. One uncompromising standard. Each engineered for a different dimension of performance.
+      </p>
+    </div>
+
+    <div class="models-grid">
+      <!-- Card 1 – Flagship -->
+      <div class="model-card">
+        <div class="model-card-visual">
+          <div class="model-bg model-bg-1"></div>
+          <!-- Abstract speed lines -->
+          <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 700 420" preserveAspectRatio="xMidYMid slice">
+            <line x1="0" y1="280" x2="700" y2="220" stroke="rgba(192,57,43,0.2)" stroke-width="1"/>
+            <line x1="0" y1="320" x2="700" y2="260" stroke="rgba(192,57,43,0.1)" stroke-width="1"/>
+            <line x1="0" y1="300" x2="700" y2="340" stroke="rgba(192,57,43,0.08)" stroke-width="2"/>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="190" fill="rgba(255,255,255,0.04)" letter-spacing="8">GT</text>
+          </svg>
+        </div>
+        <div class="model-info">
+          <p class="model-tag">Flagship</p>
+          <h3 class="model-name">VELOX GT-R</h3>
+          <div class="model-specs">
+            <div class="spec"><span class="spec-val">680</span><span class="spec-key">HP</span></div>
+            <div class="spec"><span class="spec-val">2.8s</span><span class="spec-key">0-100</span></div>
+            <div class="spec"><span class="spec-val">320</span><span class="spec-key">km/h</span></div>
+          </div>
+          <a href="#" class="model-link">Configure →</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="model-card">
+        <div class="model-card-visual">
+          <div class="model-bg model-bg-2"></div>
+          <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 360 320" preserveAspectRatio="xMidYMid slice">
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="140" fill="rgba(255,255,255,0.04)" letter-spacing="5">V8</text>
+          </svg>
+        </div>
+        <div class="model-info">
+          <p class="model-tag">Sport</p>
+          <h3 class="model-name">VELOX S8</h3>
+          <div class="model-specs">
+            <div class="spec"><span class="spec-val">520</span><span class="spec-key">HP</span></div>
+            <div class="spec"><span class="spec-val">3.4s</span><span class="spec-key">0-100</span></div>
+          </div>
+          <a href="#" class="model-link">Configure →</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="model-card">
+        <div class="model-card-visual">
+          <div class="model-bg model-bg-3"></div>
+          <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 360 320" preserveAspectRatio="xMidYMid slice">
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="120" fill="rgba(255,255,255,0.04)" letter-spacing="5">EV</text>
+            <circle cx="180" cy="200" r="120" stroke="rgba(50,200,80,0.07)" stroke-width="1" fill="none"/>
+            <circle cx="180" cy="200" r="80" stroke="rgba(50,200,80,0.05)" stroke-width="1" fill="none"/>
+          </svg>
+        </div>
+        <div class="model-info">
+          <p class="model-tag">Electric</p>
+          <h3 class="model-name">VELOX EV-1</h3>
+          <div class="model-specs">
+            <div class="spec"><span class="spec-val">620</span><span class="spec-key">km Range</span></div>
+            <div class="spec"><span class="spec-val">3.1s</span><span class="spec-key">0-100</span></div>
+          </div>
+          <a href="#" class="model-link">Configure →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="philosophy" id="philosophy">
+    <div class="phil-visual">
+      <div class="phil-visual-inner"></div>
+      <div class="phil-lines"></div>
+      <div class="phil-letter">V</div>
+      <div class="phil-badge">
+        <div class="phil-badge-num">1974</div>
+        <div class="phil-badge-text">Year Founded — Five Decades of Excellence</div>
+      </div>
+    </div>
+
+    <div class="phil-content">
+      <p class="section-label">Our Philosophy</p>
+      <h2 class="section-title">BUILT<br>DIFFERENT.</h2>
+      <p class="phil-body">
+        Since 1974, Velox has pursued one singular obsession — the perfect machine. Every vehicle that leaves our atelier carries five decades of accumulated knowledge, failure, and breakthrough.
+      </p>
+      <p class="phil-body">
+        We don't build cars. We sculpt velocity.
+      </p>
+
+      <div class="phil-features">
+        <div class="phil-feat">
+          <span class="feat-num">01</span>
+          <span class="feat-name">Aerospace-Grade Carbon Fibre</span>
+        </div>
+        <div class="phil-feat">
+          <span class="feat-num">02</span>
+          <span class="feat-name">Hand-Assembled Powertrains</span>
+        </div>
+        <div class="phil-feat">
+          <span class="feat-num">03</span>
+          <span class="feat-name">Wind-Tunnel Optimised Aerodynamics</span>
+        </div>
+        <div class="phil-feat">
+          <span class="feat-num">04</span>
+          <span class="feat-name">Bespoke Interior Craft</span>
+        </div>
+        <div class="phil-feat">
+          <span class="feat-num">05</span>
+          <span class="feat-name">Lifetime Engineering Support</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience section" id="experience">
+    <div class="exp-bg-text">VELOX</div>
+    <p class="section-label">What Sets Us Apart</p>
+    <h2 class="section-title">THE<br>EXPERIENCE</h2>
+    <div class="exp-cards">
+      <div class="exp-card">
+        <span class="exp-icon">⚡</span>
+        <div class="exp-card-title">Electrifying Power</div>
+        <p class="exp-card-body">From ICE monsters to silent EV rockets — every powertrain delivers an unrepeatable surge.</p>
+      </div>
+      <div class="exp-card">
+        <span class="exp-icon">🎨</span>
+        <div class="exp-card-title">Bespoke Craft</div>
+        <p class="exp-card-body">Configure every surface, material, and stitch. No two Velox vehicles are ever identical.</p>
+      </div>
+      <div class="exp-card">
+        <span class="exp-icon">🛡️</span>
+        <div class="exp-card-title">Track Heritage</div>
+        <p class="exp-card-body">Forged in competition, refined on the street. Our racing DNA lives in every road car.</p>
+      </div>
+      <div class="exp-card">
+        <span class="exp-icon">🌍</span>
+        <div class="exp-card-title">Global Service</div>
+        <p class="exp-card-body">Dedicated concierge support in 42 countries. Your Velox is never more than a call away.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner" id="contact">
+    <div class="cta-bg"></div>
+    <div class="cta-lines"></div>
+    <h2 class="section-title">READY TO<br><span style="color:var(--red)">DRIVE?</span></h2>
+    <p>Book a private test drive or configure your dream machine.</p>
+    <a href="#" class="btn-primary">Start Configuring</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">VELOX<span>.</span></div>
+        <p class="footer-tagline">Engineering the impossible.<br>Driving the unforgettable.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Models</p>
+        <ul class="footer-links">
+          <li><a href="#">Velox GT-R</a></li>
+          <li><a href="#">Velox S8</a></li>
+          <li><a href="#">Velox EV-1</a></li>
+          <li><a href="#">Limited Editions</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Motorsport</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <ul class="footer-links">
+          <li><a href="#">Find a Dealer</a></li>
+          <li><a href="#">Test Drive</a></li>
+          <li><a href="#">Configurator</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Velox Motors. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#">𝕏</a>
+        <a href="#">in</a>
+        <a href="#">▶</a>
+        <a href="#">◎</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Scale cursor on hover
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+        ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+        ring.style.borderColor = 'rgba(231,76,60,0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.transform = 'translate(-50%,-50%) scale(1)';
+        ring.style.borderColor = 'rgba(231,76,60,0.5)';
+      });
+    });
+
+    // Intersection Observer for scroll reveals
+    const reveals = document.querySelectorAll('.model-card, .exp-card, .phil-feat');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = `fadeUp 0.7s ease ${i * 0.08}s both`;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Parallax on hero car
+    const carGraphic = document.querySelector('.hero-car-graphic');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (carGraphic) carGraphic.style.transform = `translateY(${y * 0.3}px)`;
+    });
+  </script>
+</body>
+</html>
