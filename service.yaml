@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecommerce-service
+spec:
+  selector:
+    app: ecommerce   # MUST match deployment label
+  ports:
+    - port: 80
+      targetPort: 3000

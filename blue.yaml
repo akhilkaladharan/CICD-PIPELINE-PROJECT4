@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brand
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: brand
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: brand
+        version: blue
+    spec:
+      containers:
+      - name: website
+        image: akhiakhi1/brand:latest
+        ports:
+        - containerPort: 80
